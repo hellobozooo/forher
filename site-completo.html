@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>💖 Para a minha surtadinha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink:   #ff4fa3;
+      --yellow: #ffe44d;
+      --blue:   #4fc3f7;
+      --green:  #69f0ae;
+      --purple: #ce93d8;
+      --orange: #ffa040;
+      --red:    #ff5252;
+      --bg:     #fff0f8;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Blobs ── */
+    .blob {
+      position: fixed; border-radius: 50%;
+      filter: blur(60px); opacity: .32;
+      animation: drift 8s ease-in-out infinite alternate;
+      pointer-events: none; z-index: 0;
+    }
+    .blob-1 { width:420px;height:420px;background:var(--pink);   top:-120px;left:-100px; animation-delay:0s; }
+    .blob-2 { width:320px;height:320px;background:var(--yellow); bottom:-80px;right:-60px; animation-delay:2s; }
+    .blob-3 { width:250px;height:250px;background:var(--blue);   bottom:60px;left:40px; animation-delay:4s; }
+    .blob-4 { width:200px;height:200px;background:var(--purple); top:80px;right:80px; animation-delay:1s; }
+    @keyframes drift {
+      from { transform:translate(0,0) scale(1); }
+      to   { transform:translate(28px,20px) scale(1.08); }
+    }
+
+    /* ── Coraçõezinhos ── */
+    .hearts-container { position:fixed;inset:0;pointer-events:none;z-index:5; }
+    .heart {
+      position:absolute; bottom:-40px;
+      animation:riseHeart linear infinite; opacity:0;
+    }
+    @keyframes riseHeart {
+      0%   { transform:translateY(0) rotate(-10deg); opacity:.9; }
+      100% { transform:translateY(-95vh) rotate(15deg); opacity:0; }
+    }
+
+    /* ── Telas ── */
+    .tela {
+      display: none;
+      position: relative; z-index: 10;
+      width: 100%; min-height: 100vh;
+      align-items: center; justify-content: center;
+      flex-direction: column;
+    }
+    .tela.ativa { display: flex; }
+
+    /* ── Card ── */
+    .card {
+      background: rgba(255,255,255,.8);
+      backdrop-filter: blur(18px);
+      border: 3px solid rgba(255,79,163,.28);
+      border-radius: 36px;
+      padding: 50px 52px 44px;
+      text-align: center;
+      box-shadow: 0 8px 48px rgba(255,79,163,.15), 0 2px 12px rgba(0,0,0,.06);
+      max-width: 560px; width: 92%;
+      animation: popIn .7s cubic-bezier(.34,1.56,.64,1) both;
+    }
+    @keyframes popIn {
+      from { opacity:0; transform:scale(.75) translateY(30px); }
+      to   { opacity:1; transform:scale(1) translateY(0); }
+    }
+
+    .emoji-row {
+      font-size: 2.6rem; letter-spacing:.3rem;
+      margin-bottom: 18px;
+      animation: bounce 1.8s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%,100% { transform:translateY(0); }
+      50%      { transform:translateY(-8px); }
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.6rem,5.5vw,2.6rem);
+      background: linear-gradient(135deg, var(--pink) 0%, var(--orange) 50%, var(--purple) 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      line-height:1.3; margin-bottom:10px;
+      filter: drop-shadow(0 2px 8px rgba(255,79,163,.2));
+    }
+
+    .sub {
+      font-size:1rem; color:#c46da0; font-weight:700;
+      margin-bottom:36px; line-height:1.5;
+    }
+
+    /* ── Botões ── */
+    .btns { display:flex; flex-direction:column; gap:14px; align-items:center; }
+    .btns-row { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+
+    .btn {
+      font-family:'Nunito',sans-serif; font-weight:900; font-size:1rem;
+      color:#fff; border:none; border-radius:50px;
+      padding:15px 32px; cursor:pointer;
+      width:100%; max-width:340px;
+      position:relative; overflow:hidden;
+      transition:transform .15s, box-shadow .15s;
+    }
+    .btn::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,.22),transparent);
+      border-radius:inherit;
+    }
+    .btn:hover  { transform:translateY(-3px) scale(1.04); }
+    .btn:active { transform:translateY(1px) scale(.97); }
+
+    .btn-pink   { background:linear-gradient(135deg,var(--pink),var(--purple)); box-shadow:0 6px 24px rgba(255,79,163,.4); }
+    .btn-orange { background:linear-gradient(135deg,var(--orange),var(--pink)); box-shadow:0 6px 24px rgba(255,160,64,.4); }
+    .btn-blue   { background:linear-gradient(135deg,var(--blue),var(--purple)); box-shadow:0 6px 24px rgba(79,195,247,.4); }
+    .btn-green  { background:linear-gradient(135deg,var(--green),var(--blue)); box-shadow:0 6px 24px rgba(105,240,174,.4); }
+    .btn-red    { background:linear-gradient(135deg,var(--red),var(--orange)); box-shadow:0 6px 24px rgba(255,82,82,.4); }
+    .btn-rainbow{
+      background: linear-gradient(135deg,#ff4fa3,#ffa040,#ffe44d,#69f0ae,#4fc3f7,#ce93d8);
+      background-size:200% 200%; animation:rainbowShift 3s ease infinite;
+      box-shadow:0 6px 24px rgba(255,79,163,.5);
+    }
+    @keyframes rainbowShift {
+      0%   { background-position:0% 50%; }
+      50%  { background-position:100% 50%; }
+      100% { background-position:0% 50%; }
+    }
+
+    /* ── Msg de feedback ── */
+    .feedback {
+      display:none; margin-top:22px;
+      background:rgba(255,255,255,.9);
+      border:2px solid rgba(255,79,163,.3);
+      border-radius:20px; padding:18px 24px;
+      font-size:.95rem; font-weight:700; color:#c44d90;
+      line-height:1.5; animation:popIn .4s both;
+    }
+    .feedback.visivel { display:block; }
+
+    /* ── Progresso ── */
+    .progress {
+      font-size:.85rem; font-weight:700; color:#d48ab0;
+      margin-bottom:14px; letter-spacing:.05em;
+    }
+
+    /* ══════════════════════════════
+       TELA FINAL — fogos de coração
+    ══════════════════════════════ */
+    #tela-final {
+      background: radial-gradient(ellipse at 50% 40%, #2d0033 0%, #0a0010 100%);
+    }
+
+    .final-card {
+      background: rgba(255,255,255,.08);
+      backdrop-filter: blur(20px);
+      border: 2px solid rgba(255,79,163,.4);
+      border-radius: 40px;
+      padding: 56px 52px 48px;
+      text-align: center;
+      max-width: 560px; width:92%;
+      animation: popIn .8s cubic-bezier(.34,1.56,.64,1) both;
+    }
+
+    .final-title {
+      font-family:'Pacifico',cursive;
+      font-size: clamp(2rem,8vw,3.8rem);
+      background: linear-gradient(135deg,#ff4fa3,#ffa040,#ffe44d,#ce93d8);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      line-height:1.2; margin-bottom:18px;
+      filter:drop-shadow(0 0 20px rgba(255,79,163,.6));
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { filter:drop-shadow(0 0 20px rgba(255,79,163,.6)); }
+      50%      { filter:drop-shadow(0 0 40px rgba(255,160,64,.9)); }
+    }
+
+    .final-sub {
+      font-size:.9rem; color:rgba(255,200,230,.7);
+      font-weight:700; margin-top:14px; letter-spacing:.03em;
+    }
+
+    /* Fogos de coração canvas */
+    #fireworks-canvas {
+      position:fixed; inset:0; pointer-events:none; z-index:4;
+    }
+
+    /* ── Partículas ao clicar ── */
+    .particle {
+      position:fixed; pointer-events:none;
+      font-size:1.6rem; z-index:999;
+      animation:burst .9s ease-out forwards;
+    }
+    @keyframes burst {
+      0%   { opacity:1; transform:translate(0,0) scale(1); }
+      100% { opacity:0; transform:translate(var(--tx),var(--ty)) scale(.3); }
+    }
+
+    /* ── Shake animation para loops ── */
+    @keyframes shake {
+      0%,100% { transform:translateX(0); }
+      20%      { transform:translateX(-8px) rotate(-2deg); }
+      40%      { transform:translateX(8px)  rotate(2deg); }
+      60%      { transform:translateX(-6px) rotate(-1deg); }
+      80%      { transform:translateX(6px)  rotate(1deg); }
+    }
+    .shake { animation:shake .5s ease both; }
+  </style>
+</head>
+<body>
+
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<div class="blob blob-4"></div>
+<div class="hearts-container" id="heartsContainer"></div>
+<canvas id="fireworks-canvas"></canvas>
+
+<!-- ══════════════════════════════════════
+     TELA 1 — Olá surtadinha
+══════════════════════════════════════ -->
+<div class="tela ativa" id="tela-1">
+  <div class="card">
+    <div class="emoji-row">🌈 ✨ 🎉</div>
+    <h1>olá surtadinha</h1>
+    <p class="sub">tem uma surpresinha esperando por você 👀💕</p>
+    <div class="btns">
+      <button class="btn btn-pink" onclick="irPara('tela-2', event)">oiii, amor da minha vida 💖</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TELA 2 — Intro Quiz
+══════════════════════════════════════ -->
+<div class="tela" id="tela-2">
+  <div class="card">
+    <div class="emoji-row">💘 🧠 💘</div>
+    <h1>vamos fazer um quiz no nosso amor</h1>
+    <p class="sub">será que você me amas mais do que eu te amo? 👀🥰</p>
+    <div class="btns">
+      <button class="btn btn-pink"   onclick="irPara('tela-q1', event)">sim, amor 💕</button>
+      <button class="btn btn-orange" onclick="irPara('tela-q1', event)">claro que sim, seu gostoso 😏🔥</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TELA Q1 — Real Madrid ou Barça
+══════════════════════════════════════ -->
+<div class="tela" id="tela-q1">
+  <div class="card" id="card-q1">
+    <div class="progress">Pergunta 1 de 3 ⚽</div>
+    <div class="emoji-row">🏟️ ⚽ 🏆</div>
+    <h1>qual é o nosso clube do coração?</h1>
+    <p class="sub">escolhe com cuidado... 👀</p>
+    <div class="btns btns-row">
+      <button class="btn btn-red"  onclick="erroReal(event)">Real Madrid 🤍</button>
+      <button class="btn btn-blue" onclick="acertoBarca(event)">Barça 💙❤️</button>
+    </div>
+    <div class="feedback" id="fb-real">
+      😂 Real Madrid?? Tás a brincar comigo?! Tenta outra vez, amor! 🙏
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TELA INTER Q1 — acertou Barça
+══════════════════════════════════════ -->
+<div class="tela" id="tela-inter-q1">
+  <div class="card">
+    <div class="emoji-row">💙❤️🎉</div>
+    <h1>acertaste meu amor</h1>
+    <p class="sub">vc sabe muito sobre nós 🥹💕</p>
+    <div class="btns">
+      <button class="btn btn-red" onclick="irPara('tela-q2', event)">
+        você sabe que sou do Real, mas deixa só,<br>até porque eu te amo né... 😅❤️
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TELA Q2 — Cor do pau
+══════════════════════════════════════ -->
+<div class="tela" id="tela-q2">
+  <div class="card" id="card-q2">
+    <div class="progress">Pergunta 2 de 3 🎨</div>
+    <div class="emoji-row">🤔 🎨 😏</div>
+    <h1>qual é a cor do meu pau?</h1>
+    <p class="sub">pensa bem antes de responder... 👀</p>
+    <div class="btns btns-row">
+      <button class="btn btn-pink"    onclick="erroQ2('branco', event)">branco 🤍</button>
+      <button class="btn btn-blue"    onclick="erroQ2('preto', event)">preto 🖤</button>
+      <button class="btn btn-rainbow" onclick="acertoQ2(event)">arco íris 🌈</button>
+    </div>
+    <div class="feedback" id="fb-q2"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TELA INTER Q2 — acertou
+══════════════════════════════════════ -->
+<div class="tela" id="tela-inter-q2">
+  <div class="card">
+    <div class="emoji-row">🌈😂🔥</div>
+    <h1 style="font-size:clamp(1.3rem,4.5vw,2rem);">acertaste, mulher.</h1>
+    <p class="sub" style="font-size:1.05rem;color:#c44d90;">
+      É mesmo arco íris para te deixar toda louca<br>
+      hahahahahahahahahahahahahahah 😂🌈
+    </p>
+    <div class="btns" style="margin-top:28px;">
+      <button class="btn btn-rainbow" onclick="irPara('tela-q3', event)">próxima pergunta 👀</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TELA Q3 — Quando nos vemos
+══════════════════════════════════════ -->
+<div class="tela" id="tela-q3">
+  <div class="card" id="card-q3">
+    <div class="progress">Pergunta 3 de 3 💕</div>
+    <div class="emoji-row">😩 📅 💭</div>
+    <h1 style="font-size:clamp(1.2rem,4vw,1.9rem);">
+      quando é que vamos nos ver<br>ahhhhhhhhhhh desgraça de mundo de merda
+    </h1>
+    <p class="sub">responde direito! 😤</p>
+    <div class="btns">
+      <button class="btn btn-blue"  onclick="erroQ3(event)">não sei amor 🤷</button>
+      <button class="btn btn-pink"  onclick="acertoQ3(event)">daqui a pouquinho amor, rlx que a mãe cuida rsrsrs 😏💕</button>
+    </div>
+    <div class="feedback" id="fb-q3">
+      😤 como você não sabe xeeee, é melhor você saber!! Tenta de novo!
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     TELA FINAL — Eu te amo Messa
+══════════════════════════════════════ -->
+<div class="tela" id="tela-final">
+  <div class="final-card">
+    <div style="font-size:3.5rem;margin-bottom:20px;animation:bounce 1.5s infinite;">
+      💖🎆💖
+    </div>
+    <div class="final-title">eu te amo minha Messa</div>
+    <p class="final-sub">
+      faz uma ft para saber que você terminou<br>e que me amas mais que eu te amo 📸💕
+    </p>
+  </div>
+</div>
+
+<script>
+  /* ══════════════════════════
+     Coraçõezinhos flutuantes
+  ══════════════════════════ */
+  const emojis = ['💖','💕','💗','💓','✨','🌸','💝','🥰','💜','🧡'];
+  const container = document.getElementById('heartsContainer');
+
+  function criarCoracao() {
+    const h = document.createElement('span');
+    h.className = 'heart';
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.fontSize = (1 + Math.random() * 1.8) + 'rem';
+    const dur = 5 + Math.random() * 7;
+    h.style.animationDuration = dur + 's';
+    h.style.animationDelay   = Math.random() * 2 + 's';
+    container.appendChild(h);
+    setTimeout(() => h.remove(), (dur + 3) * 1000);
+  }
+  setInterval(criarCoracao, 400);
+  for (let i = 0; i < 12; i++) criarCoracao();
+
+  /* ══════════════════════════
+     Partículas ao clicar
+  ══════════════════════════ */
+  const burstEmojis = ['💥','💖','✨','🌸','💕','🎉','💫','🌈'];
+  function explodir(x, y) {
+    for (let i = 0; i < 12; i++) {
+      const p = document.createElement('span');
+      p.className = 'particle';
+      p.textContent = burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+      p.style.left = x + 'px'; p.style.top = y + 'px';
+      const angle = (Math.PI * 2 / 12) * i;
+      const dist  = 60 + Math.random() * 80;
+      p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+      p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 950);
+    }
+  }
+
+  /* ══════════════════════════
+     Navegação entre telas
+  ══════════════════════════ */
+  function irPara(telaId, e) {
+    if (e) explodir(e.clientX, e.clientY);
+    document.querySelectorAll('.tela').forEach(t => t.classList.remove('ativa'));
+    const tela = document.getElementById(telaId);
+    tela.classList.add('ativa');
+    // reinicia animação do card
+    const card = tela.querySelector('.card, .final-card');
+    if (card) { card.style.animation='none'; void card.offsetWidth; card.style.animation=''; }
+
+    if (telaId === 'tela-final') iniciarFogos();
+  }
+
+  /* ══════════════════════════
+     Q1 — Real Madrid (loop)
+  ══════════════════════════ */
+  function erroReal(e) {
+    explodir(e.clientX, e.clientY);
+    const fb = document.getElementById('fb-real');
+    const card = document.getElementById('card-q1');
+    fb.classList.add('visivel');
+    card.classList.remove('shake');
+    void card.offsetWidth;
+    card.classList.add('shake');
+  }
+
+  function acertoBarca(e) {
+    explodir(e.clientX, e.clientY);
+    irPara('tela-inter-q1', e);
+  }
+
+  /* ══════════════════════════
+     Q2 — Cor do pau
+  ══════════════════════════ */
+  const msgsQ2 = {
+    branco: '🤍 Branco, tás maluca? tenta de novo xeee 😂',
+    preto:  '🖤 Preto? gostas de preto né sua safada, até que poderia, mas eu sou um anjo hehe 😇😂'
+  };
+
+  function erroQ2(cor, e) {
+    explodir(e.clientX, e.clientY);
+    const fb = document.getElementById('fb-q2');
+    const card = document.getElementById('card-q2');
+    fb.textContent = msgsQ2[cor];
+    fb.classList.add('visivel');
+    card.classList.remove('shake');
+    void card.offsetWidth;
+    card.classList.add('shake');
+  }
+
+  function acertoQ2(e) {
+    explodir(e.clientX, e.clientY);
+    irPara('tela-inter-q2', e);
+  }
+
+  /* ══════════════════════════
+     Q3 — Quando nos vemos
+  ══════════════════════════ */
+  function erroQ3(e) {
+    explodir(e.clientX, e.clientY);
+    const fb = document.getElementById('fb-q3');
+    const card = document.getElementById('card-q3');
+    fb.classList.add('visivel');
+    card.classList.remove('shake');
+    void card.offsetWidth;
+    card.classList.add('shake');
+  }
+
+  function acertoQ3(e) {
+    explodir(e.clientX, e.clientY);
+    irPara('tela-final', e);
+  }
+
+  /* ══════════════════════════
+     FOGOS DE CORAÇÃO ❤️
+  ══════════════════════════ */
+  const canvas = document.getElementById('fireworks-canvas');
+  const ctx    = canvas.getContext('2d');
+  let particles = [];
+  let animFrame;
+
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function heartPath(ctx, x, y, size) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(size / 30, size / 30);
+    ctx.beginPath();
+    ctx.moveTo(0, -10);
+    ctx.bezierCurveTo( 5,-20, 20,-20, 20,-8);
+    ctx.bezierCurveTo(20,  2, 10, 12,  0, 22);
+    ctx.bezierCurveTo(-10, 12,-20,  2,-20,-8);
+    ctx.bezierCurveTo(-20,-20, -5,-20,  0,-10);
+    ctx.closePath();
+    ctx.restore();
+  }
+
+  function lancarFogo() {
+    const x = Math.random() * canvas.width;
+    const y = canvas.height * (.1 + Math.random() * .5);
+    const count = 30 + Math.floor(Math.random() * 20);
+    const hue   = Math.floor(Math.random() * 360);
+
+    for (let i = 0; i < count; i++) {
+      const angle = (Math.PI * 2 / count) * i;
+      const speed = 2 + Math.random() * 5;
+      particles.push({
+        x, y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        alpha: 1,
+        size: 6 + Math.random() * 10,
+        color: `hsl(${hue + Math.random() * 40},100%,65%)`,
+        gravity: 0.08
+      });
+    }
+  }
+
+  function animarFogos() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p, i) => {
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vy += p.gravity;
+      p.alpha -= 0.018;
+
+      ctx.globalAlpha = Math.max(p.alpha, 0);
+      ctx.fillStyle   = p.color;
+      heartPath(ctx, p.x, p.y, p.size);
+      ctx.fill();
+    });
+
+    particles = particles.filter(p => p.alpha > 0);
+    animFrame = requestAnimationFrame(animarFogos);
+  }
+
+  function iniciarFogos() {
+    particles = [];
+    cancelAnimationFrame(animFrame);
+    animarFogos();
+
+    // primeiro burst imediato
+    for (let i = 0; i < 5; i++) setTimeout(lancarFogo, i * 200);
+
+    // fogos contínuos
+    const intervalo = setInterval(() => {
+      lancarFogo();
+      if (Math.random() > .6) lancarFogo();
+    }, 600);
+
+    // guarda para parar se necessário
+    window._fogosIntervalo = intervalo;
+  }
+</script>
+</body>
+</html>
